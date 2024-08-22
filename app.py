@@ -6,7 +6,7 @@ app = Flask(__name__)
 def index():
     name = input("What is your name? ")
     print(f"Hello, {name}")
-    return "Check console"
+    return "Checked"
 
 if __name__ == '__main__':
     with app.test_request_context('/'):
