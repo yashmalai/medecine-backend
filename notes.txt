@@ -14,3 +14,35 @@
 
 схемы представления данных, 
 #пуши если под мобилкой
+
+            ЛЕКАРСТВО
+class Medicament(db.Model):
+    __tablename__ = 'medicament'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    dose = db.Column(db.String(50), nullable=False)
+    unit = db.Column(db.String(20), nullable=False)
+    intake_rule = db.Column(db.String(50), nullable=False)
+    comment = db.Column(db.Text, nullable=True)
+    schedule_times = db.Column(db.String(200), nullable=False)  # Хранение времени в виде строки, разделенной запятыми "08:00,20:00"
+    days_of_week = db.Column(db.String(7), nullable=False)  # Хранение дней в виде строки из "1" и "0" для каждого дня недели "1100000"
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+
+            ЖУРНАЛ
+класс журнал для логирования всех действий пользователя, например выпить таблетку и какую из класса лекарства, или к примеру выполнена тренировка и брать ее из выполненных тренировок
+
+class Log(db.Model):
+    __tablename__ = 'log'
+    id = db.Column(db.Integer, primary_key=True)
+    action_type = db.Column(db.String(50), nullable=False)  #какое то лекарство или какая то тренировка
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    medicine_id = db.Column(db.Integer, nullable=True)
+    workout_id = db.Column(db.Integer, nullable=True)
+    comment = db.Column(db.Text, nullable=True)
+
+    medicine = db.relationship('Medicine', backref='logs')
+    workout = db.relationship('Workout', backref='logs')
