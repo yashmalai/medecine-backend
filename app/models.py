@@ -43,9 +43,9 @@ class journal(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     action_type = db.Column(db.String(50), nullable=False)  # 'medicine' or 'workout'
-    timestamp = db.Column(db.DateTime, default=datetime)
+    timestamp = db.Column(db.DateTime, default=datetime.now())
     action_id = db.Column(db.Integer, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime)
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, action_type, medicine_id=None, workout_id=None, comment=None):
         self.action_type = action_type
