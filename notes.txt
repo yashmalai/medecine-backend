@@ -46,3 +46,11 @@ class Log(db.Model):
 
     medicine = db.relationship('Medicine', backref='logs')
     workout = db.relationship('Workout', backref='logs')
+
+
+
+предложить пользователю самому удалить запись из журнала при удалении трени или меди
+
+
+
+            ТРЕНИРОВКА

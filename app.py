@@ -1,14 +1,33 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, session, flash, Blueprint
+from app import create_app
+from app.extensions import db, migrate
+#import os
+#import dotenv
 
-app = Flask(__name__)
+
+app = create_app()
+#app.secret_key = "medecine"
+#dotenv.load_dotenv()
+
+#TODO перенести в коннфигурационный файл
+#app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}" 
+#app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 
 @app.route('/')
 def index():
-    name = input("What is your name? ")
-    print(f"Hello, {name}")
-    return "Checked"
+    return 'main'
+
+'''
+@app.route('/medicament')
+def medicament():
+    return render_template("medicament.html")
+
+'''
 
 if __name__ == '__main__':
-    with app.test_request_context('/'):
-        print(app.full_dispatch_request().get_data(as_text=True))
+    with app.app_context():
+        db.create_all()
+    #with app.test_request_context('/'):
+        #print(app.full_dispatch_request().get_data(as_text=True))
     app.run(debug=True)
