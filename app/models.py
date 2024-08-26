@@ -1,5 +1,5 @@
 from app.extensions import db
-import datetime
+from datetime import datetime
 
 class menu(db.Model):
     __tablename__ ='menu'
@@ -23,18 +23,19 @@ class medicine(db.Model):
     days_of_week = db.Column(db.String(7), nullable=False)  # Хранение дней в виде строки из "1" и "0" для каждого дня недели "1100000"
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime)
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
-    def __init__(self, name, dose, unit, intake_rule, comment, schedule_times, days_of_week, start_date, end_date): 
+    def __init__(self, name, dose, drug_type, intake_rule, comment, schedule_times, days_of_week, start_date, end_date, created_at): 
         self.name = name
         self.dose = dose
-        self.unit = unit
+        self.drug_type = drug_type
         self.intake_rule = intake_rule
         self.comment = comment
         self.schedule_times = schedule_times
         self.days_of_week = days_of_week
         self.start_date = start_date
         self.end_date = end_date
+        self.created_at = created_at
 
 
 class journal(db.Model):
