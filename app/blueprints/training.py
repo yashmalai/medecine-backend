@@ -1,9 +1,16 @@
 from flask import Blueprint, jsonify, request
 from app.extensions import db
-from app.models import training
+from app.models import training, journal
 from datetime import datetime
 
 training_bp = Blueprint('training_bp', __name__)
+
+def journal_entry(action_type, action_id):
+    return journal(
+        action_type=action_type, 
+        action_id=action_id, 
+        created_at=datetime.now()
+    )
 
 @training_bp.route('/training', methods=['GET'])
 def get_trainings():
@@ -25,6 +32,11 @@ def add_training():
         created_at = datetime.now()
         )
     db.session.add(new_training)
+    db.session.flush()
+
+    new_journal = journal_entry(data.get('drug_type'), new_training.id)
+    db.session.add(new_journal)
+
     db.session.commit()
     return jsonify({'message': 'Training added successfully'}), 201
 
