@@ -47,11 +47,11 @@ class journal(db.Model):
     action_id = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
-    def __init__(self, action_type, medicine_id=None, workout_id=None, comment=None):
+    def __init__(self, action_type, timestamp, action_id, created_at):
         self.action_type = action_type
-        self.medicine_id = medicine_id
-        self.workout_id = workout_id
-        self.comment = comment
+        self.timestamp = timestamp
+        self.action_id = action_id
+        self.created_at = created_at
 
 class training(db.Model):
     __tablename__ = 'workout'
@@ -63,9 +63,9 @@ class training(db.Model):
     spec_conditions = db.Column(db.Integer, nullable=True) #специальное условие
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime)
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
-    def __init__(self, name, workout_type, workout_subtype, calories, spec_conditions, date, time):
+    def __init__(self, name, workout_type, workout_subtype, calories, spec_conditions, date, time, created_at):
         self.name = name
         self.workout_type = workout_type
         self.workout_subtype = workout_subtype
@@ -73,3 +73,4 @@ class training(db.Model):
         self.spec_conditions = spec_conditions
         self.date = date
         self.time = time
+        self.created_at = created_at
