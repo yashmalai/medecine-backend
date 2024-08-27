@@ -11,13 +11,7 @@ def get_trainings():
     training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
     return jsonify(training_list)
 
-@training_bp.route('/training/run', methods=['GET'])
-def run_training():
-    trainings = training.query.filter(training.workout_type == 'run').all()
-    training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
-    return jsonify(training_list)
-
-@training_bp.route('/training/run', methods=['POST'])
+@training_bp.route('/training', methods=['POST'])
 def add_training():
     data = request.json
     new_training = training(
@@ -26,10 +20,28 @@ def add_training():
         workout_subtype = data.get('workout_subtype'),
         calories = data.get('calories'),
         spec_conditions = data.get('spec_conditions'),
-        date = datetime.strptime(data.get('date'), '%Y-%m-%d').date(),
-        time = datetime.strptime(data.get('time'), '%H:%m:%s').time(),
+        start_date = datetime.strptime(data.get('date'), '%Y-%m-%d').date(),
+        duration = datetime.strptime(data.get('time'), '%H:%m:%s').time(),
         created_at = datetime.now()
         )
     db.session.add(new_training)
     db.session.commit()
     return jsonify({'message': 'Training added successfully'}), 201
+
+@training_bp.route('/training/running', methods=['GET'])
+def get_run():
+    trainings = training.query.filter(training.workout_type == 'run').all()
+    training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
+    return jsonify(training_list)
+
+@training_bp.route('/training/swimming', methods=['GET'])
+def get_swim():
+    trainings = training.query.filter(training.workout_type == 'swimming').all()
+    training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
+    return jsonify(training_list)
+
+@training_bp.route('/training/fighting', methods=['GET'])
+def get_fight():
+    trainings = training.query.filter(training.workout_type == 'fighting').all()
+    training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
+    return jsonify(training_list)
