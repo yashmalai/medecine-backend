@@ -64,4 +64,4 @@ def delete_training(id):
     del_training = training.query.get_or_404(id)
     db.session.delete(del_training)
     db.session.commit()
-    return jsonify({'message': 'Medicine deleted successfully'}), 204
+    return jsonify({'message': 'Training deleted successfully'}), 204
