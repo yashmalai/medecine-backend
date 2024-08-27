@@ -21,7 +21,7 @@ def get_medicines():
 
 @medicine_bp.route('/med', methods=['POST'])
 def add_medicine():
-    data = request.json
+    data = request.get_json(force=True)
     new_medicine = medicine(
         name=data.get('name'),
         dose=data.get('dose'),
@@ -42,5 +42,11 @@ def add_medicine():
     
     db.session.commit()
 
-
     return jsonify({'message': 'Medicine added successfully'}), 201
+
+@medicine_bp.route('/med/<int:id>', methods=['DELETE'])
+def delete_medicine(id):
+    del_medicine = medicine.query.get_or_404(id)
+    db.session.delete(del_medicine)
+    db.session.commit()
+    return jsonify({'message': 'Medicine deleted successfully'}), 204

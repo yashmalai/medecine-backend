@@ -57,3 +57,11 @@ def get_fight():
     trainings = training.query.filter(training.workout_type == 'fighting').all()
     training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
     return jsonify(training_list)
+
+
+@training_bp.route('/training/<int:id>', methods=['DELETE'])
+def delete_training(id):
+    del_training = training.query.get_or_404(id)
+    db.session.delete(del_training)
+    db.session.commit()
+    return jsonify({'message': 'Medicine deleted successfully'}), 204
