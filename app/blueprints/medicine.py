@@ -40,9 +40,9 @@ def add_medicine():
         comment=data.get('comment'),
         schedule_times=data.get('schedule_times'),
         days_of_week=data.get('days_of_week'),
-        total_doses = drug_days_handler.calculate_drug_days(data.get('dose'), data.get('schedule_times'), datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(), datetime.strptime(data.get('end_date'), '%Y-%m-%d').date()),
         start_date=datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(),
         end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d').date() if data.get('end_date') else None,
+        total_doses = drug_days_handler.calculate_drug_days(dose=data.get('dose'), schedule=data.get('schedule_times'), start_date=datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(), end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d').date()),
         created_at=datetime.now()
     )
     db.session.add(new_medicine)
