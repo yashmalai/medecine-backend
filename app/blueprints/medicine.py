@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models import medicine, journal
 from datetime import datetime
+from app.handlers import drug_days_handler
 
 medicine_bp = Blueprint('medicine_bp', __name__)
 
@@ -16,7 +17,16 @@ def journal_entry(action_type, action_id):
 @medicine_bp.route('/med', methods=['GET'])
 def get_medicines():
     medicines = medicine.query.all()
-    medicines_list = [{'id': med.id, 'name': med.name, 'dose': med.dose, 'unit': med.drug_type, 'intake_rule': med.intake_rule, 'comment': med.comment} for med in medicines]
+    medicines_list = [
+        {
+            'id': med.id, 
+            'name': med.name, 
+            'dose': med.dose, 
+            'unit': med.drug_type, 
+            'intake_rule': med.intake_rule, 
+            'comment': med.comment
+        } 
+        for med in medicines]
     return jsonify(medicines_list)
 
 @medicine_bp.route('/med', methods=['POST'])
@@ -30,6 +40,7 @@ def add_medicine():
         comment=data.get('comment'),
         schedule_times=data.get('schedule_times'),
         days_of_week=data.get('days_of_week'),
+        total_doses = drug_days_handler.calculate_drug_days(data.get('dose'), data.get('schedule_times'), datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(), datetime.strptime(data.get('end_date'), '%Y-%m-%d').date()),
         start_date=datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(),
         end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d').date() if data.get('end_date') else None,
         created_at=datetime.now()

@@ -15,7 +15,7 @@ def journal_entry(action_type, action_id):
 @training_bp.route('/training', methods=['GET'])
 def get_trainings():
     trainings = training.query.all()
-    training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
+    training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type, 'workout_subtype': w.workout_subtype, 'calories': w.calories,'spec_conditions': w.spec_conditions,'start_date': w.start_date, 'duration': w.duration} for w in trainings]
     return jsonify(training_list)
 
 @training_bp.route('/training', methods=['POST'])

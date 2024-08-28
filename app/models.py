@@ -23,6 +23,8 @@ class medicine(db.Model):
     days_of_week = db.Column(db.String(7), nullable=False)  # Хранение дней в виде строки из "1" и "0" для каждого дня недели "1100000"
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
+    doses_taken = db.Column(db.Integer, nullable=True, default=0)
+    total_doses = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, name, dose, drug_type, intake_rule, comment, schedule_times, days_of_week, start_date, end_date, created_at): 
