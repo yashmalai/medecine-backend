@@ -32,6 +32,7 @@ def get_medicines():
 @medicine_bp.route('/med', methods=['POST'])
 def add_medicine():
     data = request.get_json(force=True)
+    doses_list = [{'dose':data.get('dose'), 'schedule':data.get('schedule_times'), 'start_date':datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(),'end_date':datetime.strptime(data.get('end_date'), '%Y-%m-%d').date()}]
     new_medicine = medicine(
         name=data.get('name'),
         dose=data.get('dose'),
@@ -42,7 +43,7 @@ def add_medicine():
         days_of_week=data.get('days_of_week'),
         start_date=datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(),
         end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d').date() if data.get('end_date') else None,
-        total_doses = drug_days_handler.calculate_drug_days(dose=data.get('dose'), schedule=data.get('schedule_times'), start_date=datetime.strptime(data.get('start_date'), '%Y-%m-%d').date(), end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%d').date()),
+        total_doses = drug_days_handler.calculate_drug_days(doses_list),
         created_at=datetime.now()
     )
     db.session.add(new_medicine)
