@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.extensions import db
 from app.models import training, journal
 from datetime import datetime
+from app.handlers import calories_handler
 
 training_bp = Blueprint('training_bp', __name__)
 
@@ -25,10 +26,10 @@ def add_training():
         name=data.get('name'), 
         workout_type=data.get('workout_type'),
         workout_subtype = data.get('workout_subtype'),
-        calories = data.get('calories'),
         spec_conditions = data.get('spec_conditions'),
         start_date = datetime.strptime(data.get('date'), '%Y-%m-%d').date(),
-        duration = datetime.strptime(data.get('time'), '%H:%m:%s').time(),
+        duration = data.get('duration'),
+        calories = calories_handler.calc_calories(data.get('woorkout_type'), data.get('workout_subtype'), data.get('duration')),
         created_at = datetime.now()
         )
     db.session.add(new_training)
@@ -42,7 +43,7 @@ def add_training():
 
 @training_bp.route('/training/running', methods=['GET'])
 def get_run():
-    trainings = training.query.filter(training.workout_type == 'run').all()
+    trainings = training.query.filter(training.workout_type == 'running').all()
     training_list = [{'id': w.id, 'name': w.name, 'workout_type': w.workout_type} for w in trainings]
     return jsonify(training_list)
 

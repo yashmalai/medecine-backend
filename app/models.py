@@ -62,7 +62,7 @@ class training(db.Model):
     calories = db.Column(db.Integer, nullable=True)
     spec_conditions = db.Column(db.Integer, nullable=True) #специальное условие
     start_date = db.Column(db.Date, nullable=False)
-    duration = db.Column(db.Time, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, name, workout_type, workout_subtype, calories, spec_conditions, start_date, duration, created_at):
