@@ -35,7 +35,7 @@ def add_training():
     db.session.add(new_training)
     db.session.flush()
 
-    new_journal = journal_entry(data.get('drug_type'), new_training.id)
+    new_journal = journal_entry(data.get('workout_type'), new_training.id)
     db.session.add(new_journal)
 
     db.session.commit()
