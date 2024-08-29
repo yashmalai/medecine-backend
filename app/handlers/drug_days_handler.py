@@ -1,13 +1,12 @@
-from datetime import datetime
-
 def calculate_drug_days(**kwargs):
-    dose = kwargs.get('dose')
+    dose_raw = kwargs.get('dose')
+    dose = int(dose_raw)
     schedule = kwargs.get('schedule')
     start_date = kwargs.get('start_date')
     end_date = kwargs.get('end_date')
 
-    days_total = (end_date - start_date).days + 1 # количество дней приема
-    
+    days_total_raw = (end_date - start_date).days # количество дней приема
+    days_total = int(days_total_raw)
     doses_per_day = len(schedule.split(',')) 
     doses_per_day = dose * doses_per_day # сколько таблеток в день
     

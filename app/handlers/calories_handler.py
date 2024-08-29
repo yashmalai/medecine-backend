@@ -1,7 +1,7 @@
 
 def calculate(MET, duration):
     man = [175, 75, 25] # рост, вес, возраст
-    calories = man[1] * (duration/60) + MET
+    calories = man[1] * (duration/60) * MET
     return calories
 
 def calc_calories(workout_type, workout_subtype, duration):
