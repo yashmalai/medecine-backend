@@ -1,15 +1,28 @@
 from app.extensions import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
-class menu(db.Model):
-    __tablename__ ='menu'
-    id = db.Column("id", db.Integer, primary_key=True)
-    name = db.Column("name", db.String(255))
-    created = db.Column("created", db.DateTime)
-    modified = db.Column("modified", db.DateTime)
+class User(db.Model):
+    __tablename__ ='user'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    weight = db.Column(db.Integer, nullable=False)
+    height = db.Column(db.Integer, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
-    def __init__(self, name, email):
+    def __init__(self, name, age, weight, height, password, created_at):
         self.name = name
+        self.age = age
+        self.weight = weight
+        self.height = height
+        self.password_hash = generate_password_hash(password)
+        self.created_at = created_at
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
 
 class medicine(db.Model):
     __tablename__ = 'drug'
