@@ -1,4 +1,6 @@
 
+
+# TODO добавить значения из класса юзер(из профиля)
 def calculate(MET, duration):
     man = [175, 75, 25] # рост, вес, возраст
     calories = man[1] * (duration/60) * MET
